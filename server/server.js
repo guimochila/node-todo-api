@@ -80,7 +80,6 @@ app.delete('/todos/:id', (req, res) => {
 /*
   PATCH /todos/:id - Update
 */
-
 app.patch('/todos/:id', (req, res) => {
   const id = req.params.id;
   let body = _.pick(req.body, ['text', 'completed']);
@@ -106,6 +105,24 @@ app.patch('/todos/:id', (req, res) => {
     }).catch(e => res.status(400).send());
 
 });
+
+/*
+  POST /users
+*/
+app.post('/users', (req,res) => {
+  const body = _.pick(req.body, ['email', 'password']);
+  const user = new User({
+    email: body.email,
+    password: body.password
+  });
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  })
+  .then((token) => res.header('x-auth', token).send(user))
+  .catch((e) => res.status(400).send(e));
+});
+
 
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
