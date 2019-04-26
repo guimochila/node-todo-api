@@ -2,10 +2,20 @@ import { model } from 'mongoose';
 
 const Todo = model('Todo');
 
-/* Add todo controller */
+/**
+ *  Add new Todos - method POST
+ * */
 export const addTodo = async (req, res) => {
   const todo = await new Todo(req.body).save();
   res.json(todo);
+};
+
+/**
+ *  Get Todos - method GET
+ * */
+export const getTodos = async (req, res) => {
+  const todos = await Todo.find();
+  res.json(todos);
 };
 
 // /*
