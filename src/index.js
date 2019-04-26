@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import './db';
+// Import data model
+import './models/Todos';
 import routes from './routes';
 
 const app = express();
