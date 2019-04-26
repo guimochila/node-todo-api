@@ -4,6 +4,7 @@ import {
   getTodo,
   getTodos,
   removeTodo,
+  updateTodo,
 } from '../controllers/todoController';
 import { catchErrors } from '../handlers/errorHandler';
 
@@ -13,5 +14,6 @@ router.post('/', catchErrors(addTodo));
 router.get('/', catchErrors(getTodos));
 router.get('/:id', catchErrors(getTodo));
 router.delete('/:id', catchErrors(removeTodo));
+router.patch('/:id', catchErrors(updateTodo));
 
 export default router;

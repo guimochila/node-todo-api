@@ -50,47 +50,29 @@ export const removeTodo = async (req, res) => {
   res.json(todo);
 };
 
-// /*
-//   PATCH /todos/:id - Update
-// */
-// app.patch('/todos/:id', authenticate, (req, res) => {
-//   const { id } = req.params;
-//   const body = _.pick(req.body, ['text', 'completed']);
+/**
+ *  Update Todo - method PATCH
+ * */
+export const updateTodo = async (req, res) => {
+  const id = isObjectIdValid(req.params.id);
 
-//   if (!ObjectID.isValid(id)) {
-//     return res.status(404).send();
-//   }
+  const todo = await Todo.findOneAndUpdate(
+    { _id: id },
+    {
+      ...req.body,
+    },
+    {
+      new: true,
+    },
+  );
 
-//   if (_.isBoolean(body.completed) && body.completed) {
-//     body.completedAt = new Date().getTime();
-//   } else {
-//     body.completed = false;
-//     body.completedAt = null;
-//   }
+  if (!todo) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
+  }
 
-//   Todo.findOneAndUpdate(
-//     {
-//       _id: id,
-//       _creator: req.user._id,
-//     },
-//     {
-//       $set: body,
-//     },
-//     {
-//       new: true,
-//     },
-//   )
-//     .then(todo => {
-//       if (!todo) {
-//         return res.status(404).send();
-//       }
-
-//       res.send({
-//         todo,
-//       });
-//     })
-//     .catch(e => res.status(400).send());
-// });
+  res.json(todo);
+};
 
 // /*
 //   POST /users
