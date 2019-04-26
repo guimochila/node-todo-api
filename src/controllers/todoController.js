@@ -1,4 +1,5 @@
 import { model } from 'mongoose';
+import isObjectIdValid from '../handlers/helpers';
 
 const Todo = model('Todo');
 
@@ -18,72 +19,36 @@ export const getTodos = async (req, res) => {
   res.json(todos);
 };
 
-// /*
-//   GET /todos
-// */
-// app.get('/todos', authenticate, (req, res) => {
-//   Todo.find({
-//     _creator: req.user._id,
-//   })
-//     .then(todos => {
-//       res.send({
-//         todos,
-//       });
-//     })
-//     .catch(e => res.status(400).send(e));
-// });
+/**
+ *  Get Todo - method GET
+ * */
+export const getTodo = async (req, res) => {
+  const id = isObjectIdValid(req.params.id);
 
-// /*
-//   GET /todos/:id
-// */
-// app.get('/todos/:id', authenticate, (req, res) => {
-//   const { id } = req.params;
+  const todo = await Todo.findById(id);
 
-//   if (!ObjectID.isValid(id)) {
-//     return res.status(404).send();
-//   }
+  if (!todo) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
+  }
+  res.json(todo);
+};
 
-//   Todo.findOne({
-//     _id: id,
-//     _creator: req.user._id,
-//   })
-//     .then(todo => {
-//       if (!todo) {
-//         return res.status(404).send();
-//       }
+/**
+ *  Remove Todo - method DELETE
+ * */
+export const removeTodo = async (req, res) => {
+  const id = isObjectIdValid(req.params.id);
 
-//       res.send({
-//         todo,
-//       });
-//     })
-//     .catch(e => res.status(400).send());
-// });
+  const todo = await Todo.findOneAndDelete({ _id: id });
 
-// /*
-//   DELETE /todos/:id
-// */
-// app.delete('/todos/:id', authenticate, (req, res) => {
-//   const { id } = req.params;
+  if (!todo) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
+  }
 
-//   if (!ObjectID.isValid(id)) {
-//     return res.status(404).send();
-//   }
-
-//   Todo.findOneAndRemove({
-//     _id: id,
-//     _creator: req.user._id,
-//   })
-//     .then(todo => {
-//       if (!todo) {
-//         return res.status(404).send();
-//       }
-
-//       res.send({
-//         todo,
-//       });
-//     })
-//     .catch(e => res.status(400).send());
-// });
+  res.json(todo);
+};
 
 // /*
 //   PATCH /todos/:id - Update
