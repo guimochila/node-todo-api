@@ -5,7 +5,6 @@ const Todo = model('Todo');
 /* Add todo controller */
 export const addTodo = async (req, res) => {
   const todo = await new Todo(req.body).save();
-
   res.json(todo);
 };
 

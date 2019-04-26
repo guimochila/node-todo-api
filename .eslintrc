@@ -1,3 +1,6 @@
 {
-  "extends": ["airbnb-base", "prettier"]
+  "extends": ["airbnb-base", "prettier"],
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+  }
 }
