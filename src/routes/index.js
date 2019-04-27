@@ -6,14 +6,16 @@ import {
   removeTodo,
   updateTodo,
 } from '../controllers/todoController';
+import { registerUser } from '../controllers/userController';
 import { catchErrors } from '../handlers/errorHandler';
 
 const router = Router();
 
-router.post('/', catchErrors(addTodo));
-router.get('/', catchErrors(getTodos));
-router.get('/:id', catchErrors(getTodo));
-router.delete('/:id', catchErrors(removeTodo));
-router.patch('/:id', catchErrors(updateTodo));
+router.post('/todos', catchErrors(addTodo));
+router.get('/todos', catchErrors(getTodos));
+router.get('/todos/:id', catchErrors(getTodo));
+router.delete('/todos/:id', catchErrors(removeTodo));
+router.patch('/todos/:id', catchErrors(updateTodo));
+router.post('/users', catchErrors(registerUser));
 
 export default router;
