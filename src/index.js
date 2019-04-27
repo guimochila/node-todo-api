@@ -3,8 +3,6 @@ import express from 'express';
 import helmet from 'helmet';
 import './db';
 import { developmentErrors } from './handlers/errorHandler';
-// Import data model
-import './models/Todos';
 import routes from './routes';
 
 const app = express();
@@ -17,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT;
 
 // Handle API requests with our routes - version 1
-app.use('/v1/todos', routes);
+app.use('/v1', routes);
 
 // Error handlers
 app.use(developmentErrors);
