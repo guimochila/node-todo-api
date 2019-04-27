@@ -23,4 +23,14 @@ const todoSchema = new Schema({
   },
 });
 
+todoSchema.post('findOneAndUpdate', function updateCompletedAt(doc) {
+  if (doc.completed) {
+    this.updateOne(
+      {},
+      { $set: { completedAt: new Date() } },
+      { new: true },
+    ).exec();
+  }
+});
+
 export default model('Todo', todoSchema);

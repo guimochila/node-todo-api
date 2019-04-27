@@ -63,6 +63,7 @@ export const updateTodo = async (req, res) => {
     },
     {
       new: true,
+      runValidators: true,
     },
   );
 
