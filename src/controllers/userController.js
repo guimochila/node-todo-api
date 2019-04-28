@@ -1,9 +1,10 @@
+import bcrypt from 'bcryptjs';
 import { model } from 'mongoose';
 import { isEmail, isLength } from 'validator';
 
 const User = model('User');
 
-export const registerUser = (req, res) => {
+export const registerUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!isEmail(email)) {
@@ -12,13 +13,25 @@ export const registerUser = (req, res) => {
     });
   }
 
-  if (!isLength(password, { min: 6, max: 30 })) {
+  if (!isLength(password, { min: 5, max: 30 })) {
     return res
       .status(400)
       .json({ message: 'Password must be between 5 and 30 characters long.' });
   }
 
-  return res.send('Here');
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  try {
+    await new User({ email, password: hashPassword }).save();
+  } catch (e) {
+    if (e.message.includes('E11000 duplicate key error collection')) {
+      return res.status(400).json({ message: 'Email already in use' });
+    }
+
+    throw new Error(e.message);
+  }
+
+  return res.json({ message: 'User created with success.' });
 };
 
 export const updateUser = (req, res) => {};
