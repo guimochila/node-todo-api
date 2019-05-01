@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { model } from 'mongoose';
 import { isEmail, isLength } from 'validator';
 
@@ -34,7 +35,39 @@ export const registerUser = async (req, res) => {
   return res.json({ message: 'User created with success.' });
 };
 
-export const updateUser = (req, res) => {};
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!isEmail(email)) {
+    return res.status(400).json({
+      message: 'Invalid email address. Please provide a valid email.',
+    });
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'Email or password invalid.',
+    });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return res.status(401).json({
+      message: 'Email or password invalid.',
+    });
+  }
+
+  // Generate JWT
+  const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+
+  res.header('X-Authorization', token);
+  res.json({ message: 'Ok' });
+};
+
+// export const updateUser = (req, res) => {};
 
 // /*
 //   POST /users

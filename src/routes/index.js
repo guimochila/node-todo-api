@@ -6,7 +6,7 @@ import {
   removeTodo,
   updateTodo,
 } from '../controllers/todoController';
-import { registerUser } from '../controllers/userController';
+import { loginUser, registerUser } from '../controllers/userController';
 import { catchErrors } from '../handlers/errorHandler';
 
 const router = Router();
@@ -17,5 +17,6 @@ router.get('/todos/:id', catchErrors(getTodo));
 router.delete('/todos/:id', catchErrors(removeTodo));
 router.patch('/todos/:id', catchErrors(updateTodo));
 router.post('/users', catchErrors(registerUser));
+router.post('/users/login', catchErrors(loginUser));
 
 export default router;
