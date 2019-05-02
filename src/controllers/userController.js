@@ -64,7 +64,7 @@ export const loginUser = async (req, res) => {
   const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
   res.header('X-Authorization', token);
-  res.json({ message: 'Ok' });
+  return res.json({ message: 'Ok' });
 };
 
 // export const updateUser = (req, res) => {};
