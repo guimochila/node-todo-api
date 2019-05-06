@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-// Import data model
-import './models/Todos';
 import './models/User';
+// Import data model
+import './resources/todo/todo.model';
 
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
