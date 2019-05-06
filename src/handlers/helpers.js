@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { ObjectId } = mongoose.Types;
 
-const isObjectIdValid = id => {
+export const isObjectIdValid = id => {
   if (!ObjectId.isValid(id)) {
     throw new Error('ObjectID is not valid');
   }
@@ -10,4 +10,6 @@ const isObjectIdValid = id => {
   return id;
 };
 
-export default isObjectIdValid;
+export const methodNotAllowed = (req, res) => {
+  return res.status(405).end();
+};
