@@ -23,18 +23,22 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-import": "^2.17.2",
-    "expect": "^1.20.2",
-    "mocha": "^3.2.0",
+    "jest": "^24.8.0",
     "nodemon": "^1.18.11",
-    "prettier": "^1.17.0",
-    "supertest": "^2.0.1"
+    "prettier": "^1.17.0"
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
