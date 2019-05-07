@@ -6,9 +6,9 @@ import TodoService from '../../services/todo.services';
 export const addTodo = async (req, res, next) => {
   try {
     const todo = await TodoService.createTodo(req.body);
-    res.status(201).json({ data: { todo } });
+    return res.status(201).json({ data: { todo } });
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
 
@@ -18,16 +18,16 @@ export const addTodo = async (req, res, next) => {
 export const getTodos = async (req, res, next) => {
   try {
     const todos = await TodoService.findTodos();
-    res.json({ data: { todos } });
+    return res.json({ data: { todos } });
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
 
 /**
  *  Get Todo - method GET
  * */
-export const getTodo = async (req, res) => {
+export const getTodo = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -37,9 +37,9 @@ export const getTodo = async (req, res) => {
       return res.status(404).end();
     }
 
-    res.json({ data: { todo } });
+    return res.json({ data: { todo } });
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
 
@@ -65,7 +65,7 @@ export const removeTodo = async (req, res, next) => {
 /**
  *  Update Todo - method PATCH
  * */
-export const updateTodo = async (req, res) => {
+export const updateTodo = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -77,6 +77,6 @@ export const updateTodo = async (req, res) => {
 
     return res.status(201).json({ data: { todo } });
   } catch (e) {
-    console.log(e);
+    return next(e);
   }
 };
