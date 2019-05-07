@@ -8,6 +8,7 @@ export const addTodo = async (req, res, next) => {
     const todo = await TodoService.createTodo(req.body);
     return res.status(201).json({ data: { todo } });
   } catch (e) {
+    e.status = 400;
     return next(e);
   }
 };
@@ -20,6 +21,7 @@ export const getTodos = async (req, res, next) => {
     const todos = await TodoService.findTodos();
     return res.json({ data: { todos } });
   } catch (e) {
+    e.status = 400;
     return next(e);
   }
 };
