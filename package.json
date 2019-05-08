@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node -r esm src/index.js",
     "dev": "nodemon -r esm src/index.js",
-    "test": "export NODE_ENV=test && mocha src/**/*.test.js",
-    "test-watch": "nodemon --exec 'npm test'"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "author": "",
   "license": "ISC",
