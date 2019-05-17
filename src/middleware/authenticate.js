@@ -1,18 +1,23 @@
-const { User } = require('./../models/user');
+import jwt from 'jsonwebtoken';
+import User from '../resources/user/user.model';
 
 const authenticate = (req, res, next) => {
-  const token = req.header('x-auth');
+  try {
+    const token = req.header('Authorization');
+    const userId = jwt.verify(
+      token.split('Bearer ')[1],
+      process.env.APP_SECRET,
+    );
+    const user = User.findById(userId);
 
-  User.findByToken(token)
-    .then((user) => {
-      if(!user) {
-        return Promise.reject();
-      }
+    if (!user) {
+      return res.status(403).send();
+    }
 
-      req.user = user;
-      req.token = token;
-      next();
-    }).catch((e) => res.status(401).send());
-}
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+};
 
-module.exports = { authenticate };
+export default authenticate;
