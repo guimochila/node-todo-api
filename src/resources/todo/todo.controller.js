@@ -5,7 +5,10 @@ import TodoService from './todo.services';
  * */
 export const addTodo = async (req, res, next) => {
   try {
-    const todo = await TodoService.createTodo(req.body);
+    const todo = await TodoService.createTodo({
+      ...req.body,
+      owner: req.user.id,
+    });
     return res.status(201).json({ data: { todo } });
   } catch (e) {
     e.status = 400;
@@ -18,7 +21,7 @@ export const addTodo = async (req, res, next) => {
  * */
 export const getTodos = async (req, res, next) => {
   try {
-    const todos = await TodoService.findTodos();
+    const todos = await TodoService.findTodos(req.user.id);
     return res.json({ data: { todos } });
   } catch (e) {
     e.status = 400;
@@ -33,7 +36,7 @@ export const getTodo = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const todo = await TodoService.findOneTodo(id);
+    const todo = await TodoService.findOneTodo(id, req.user.id);
 
     if (!todo) {
       return res.status(404).end();
@@ -52,7 +55,7 @@ export const removeTodo = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const todo = await TodoService.removeTodo(id);
+    const todo = await TodoService.removeTodo(id, req.user.id);
 
     if (!todo) {
       return res.status(404).end();
@@ -71,7 +74,7 @@ export const updateTodo = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const todo = await TodoService.updateTodo(id, req.body);
+    const todo = await TodoService.updateTodo(id, req.body, req.user.id);
 
     if (!todo) {
       return res.status(404).end();

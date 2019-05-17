@@ -8,19 +8,19 @@ const createTodo = async todo => {
   return newTodo;
 };
 
-const findTodos = async () => {
-  const todos = await Todo.find({});
+const findTodos = async userId => {
+  const todos = await Todo.find({ owner: userId });
   return todos;
 };
 
-const findOneTodo = async id => {
-  const todo = await Todo.findOne({ _id: id });
+const findOneTodo = async (id, userId) => {
+  const todo = await Todo.findOne({ _id: id, owner: userId });
   return todo;
 };
 
-const updateTodo = async (id, update) => {
-  const todo = await Todo.findByIdAndUpdate(
-    { _id: id },
+const updateTodo = async (id, update, userId) => {
+  const todo = await Todo.findOneAndUpdate(
+    { _id: id, owner: userId },
     {
       ...update,
     },
@@ -33,8 +33,8 @@ const updateTodo = async (id, update) => {
   return todo;
 };
 
-const removeTodo = async id => {
-  const todo = await Todo.findByIdAndDelete({ _id: id });
+const removeTodo = async (id, userId) => {
+  const todo = await Todo.findOneAndDelete({ _id: id, owner: userId });
   return todo;
 };
 
