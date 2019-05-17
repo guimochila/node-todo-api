@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import './db';
 import { developmentErrors } from './handlers/errorHandler';
 import todoRouter from './resources/todo/todo.router';
+import userRouter from './resources/user/user.router';
 
 const app = express();
 
@@ -18,6 +19,7 @@ const port = process.env.PORT;
 
 // Handle API requests with our routes - version 1
 app.use('/v1/todos', todoRouter);
+app.use('/v1/user', userRouter);
 
 // Error handlers
 app.use(developmentErrors);
