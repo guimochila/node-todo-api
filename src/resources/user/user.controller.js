@@ -62,3 +62,11 @@ export const loginUser = async (req, res) => {
   res.header('X-Authorization', token);
   return res.json({ message: 'Ok' });
 };
+
+export const me = (req, res) => {
+  if (!req.user) {
+    return res.status(403).send();
+  }
+
+  return res.json({ data: { me: req.user.email } });
+};
