@@ -1,4 +1,4 @@
-import TodoService from '../../services/todo.services';
+import TodoService from './todo.services';
 
 /**
  *  Add new Todos - method POST

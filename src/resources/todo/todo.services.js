@@ -1,4 +1,5 @@
 import { model } from 'mongoose';
+import './todo.model';
 
 const Todo = model('Todo');
 
@@ -28,6 +29,7 @@ const updateTodo = async (id, update) => {
       runValidators: true,
     },
   );
+
   return todo;
 };
 
