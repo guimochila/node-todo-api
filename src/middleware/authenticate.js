@@ -1,18 +1,28 @@
-const { User } = require('./../models/user');
+import jwt from 'jsonwebtoken';
+import User from '../resources/user/user.model';
 
-const authenticate = (req, res, next) => {
-  const token = req.header('x-auth');
+const authenticate = async (req, res, next) => {
+  const token = req.header('Authorization');
 
-  User.findByToken(token)
-    .then((user) => {
-      if(!user) {
-        return Promise.reject();
-      }
+  if (!token) {
+    return res.status(403).send();
+  }
 
-      req.user = user;
-      req.token = token;
-      next();
-    }).catch((e) => res.status(401).send());
-}
+  try {
+    const { userId } = jwt.verify(
+      token.split('Bearer ')[1],
+      process.env.APP_SECRET,
+    );
+    const user = await User.findById(userId).select('id email');
 
-module.exports = { authenticate };
+    if (!user) {
+      return res.status(403).send();
+    }
+    req.user = user;
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+};
+
+export default authenticate;

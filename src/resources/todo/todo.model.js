@@ -24,7 +24,7 @@ const todoSchema = new Schema({
 });
 
 todoSchema.post('findOneAndUpdate', function updateCompletedAt(doc) {
-  if (doc.completed) {
+  if (doc && doc.completed) {
     this.updateOne(
       {},
       { $set: { completedAt: new Date() } },
